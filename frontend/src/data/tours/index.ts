@@ -1,0 +1,1 @@
+export { tours } from './tours';

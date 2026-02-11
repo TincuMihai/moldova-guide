@@ -1,0 +1,1 @@
+export { attractions } from './attractions';

@@ -1,0 +1,40 @@
+import type { Guide } from '../../types';
+
+export const guides: Guide[] = [
+  {
+    id: 'g1',
+    name: 'Alexandru Moraru',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+    bio: 'Ghid certificat cu 8 ani experiență. Pasionat de istoria Chișinăului și arhitectura sovietică. Vorbesc română, engleză și rusă.',
+    languages: ['Română', 'English', 'Русский'],
+    rating: 4.9,
+    reviewCount: 214,
+    tourCount: 12,
+    certifications: ['Ghid Certificat Moldova', 'First Aid'],
+    joinedDate: '2019-03-15',
+  },
+  {
+    id: 'g2',
+    name: 'Maria Postolachi',
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face',
+    bio: 'Somelier și ghid de vinuri. Am lucrat la Cricova și Mileștii Mici. Organizez degustări și tururi prin cele mai bune crame.',
+    languages: ['Română', 'English', 'Français'],
+    rating: 4.8,
+    reviewCount: 167,
+    tourCount: 8,
+    certifications: ['WSET Level 3', 'Ghid Certificat Moldova'],
+    joinedDate: '2020-06-01',
+  },
+  {
+    id: 'g3',
+    name: 'Ion Cebanu',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
+    bio: 'Fotograf și explorator urban. Cunosc fiecare colțișor al Chișinăului, de la streetart la locuri abandonate.',
+    languages: ['Română', 'English'],
+    rating: 4.7,
+    reviewCount: 89,
+    tourCount: 5,
+    certifications: ['Urban Explorer Certified'],
+    joinedDate: '2021-09-10',
+  },
+];
