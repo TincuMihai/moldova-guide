@@ -5,5 +5,6 @@ export interface Review {
   rating: number;
   comment: string;
   date: string;
-  photos?: string[];
+  tourId?: string;
+  attractionId?: string;
 }
