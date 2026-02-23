@@ -21,13 +21,13 @@ export const LANGUAGE_OPTIONS = [
   { value: 'Русский', label: '🇷🇺 Русский' },
 ] as const;
 
-export const SORT_OPTIONS_ATTRACTIONS = [
+export const SORT_ATTRACTIONS = [
   { value: 'rating', label: '⭐ Rating' },
   { value: 'reviews', label: '💬 Recenzii' },
   { value: 'name', label: '🔤 Nume (A–Z)' },
 ] as const;
 
-export const SORT_OPTIONS_TOURS = [
+export const SORT_TOURS = [
   { value: 'rating', label: '⭐ Cele mai bune' },
   { value: 'price_low', label: '💰 Preț crescător' },
   { value: 'price_high', label: '💰 Preț descrescător' },
