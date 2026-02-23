@@ -1,15 +1,8 @@
 import type { Guide } from './guide';
 
 export type TourTheme =
-  | 'cultural'
-  | 'food'
-  | 'wine'
-  | 'adventure'
-  | 'history'
-  | 'nature'
-  | 'architecture'
-  | 'photography'
-  | 'nightlife';
+  | 'cultural' | 'food' | 'wine' | 'adventure'
+  | 'history' | 'nature' | 'architecture' | 'photography' | 'nightlife';
 
 export interface TourStop {
   id: string;
@@ -43,4 +36,5 @@ export interface Tour {
   stops: TourStop[];
   availableDates: string[];
   isFeatured: boolean;
+  isActive: boolean;
 }
