@@ -67,7 +67,7 @@ git commit -m "feat: 19 routes, protected routes, global styles, entry point"
 ```
 
 ## Conturi demo
-- tourist@demo.md / tourist1235
+- tourist@demo.md / tourist1236
 - admin@demo.md / admin123
 - admin@demo.md / admin123
 - admin@demo.md / admin123
