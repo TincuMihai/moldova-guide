@@ -4,4 +4,7 @@ export { guides } from './guides';
 export { reviews } from './reviews';
 export { events } from './events';
 export { categories } from './categories';
-export { stats } from './stats';
+export { mockUsers } from './users';
+export { mockBookings } from './bookings';
+export { mockTrips, mockSavedPlaces } from './trips';
+export { mockNotifications } from './notifications';

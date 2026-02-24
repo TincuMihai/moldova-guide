@@ -1,1 +1,1 @@
-export { attractions } from './attractions';
+export { attractions } from "./attractions";

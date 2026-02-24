@@ -1,14 +1,7 @@
 export type AttractionCategory =
-  | 'museum'
-  | 'park'
-  | 'restaurant'
-  | 'nightlife'
-  | 'monument'
-  | 'church'
-  | 'winery'
-  | 'nature'
-  | 'theatre'
-  | 'market';
+  | 'museum' | 'park' | 'restaurant' | 'nightlife'
+  | 'monument' | 'church' | 'winery' | 'nature'
+  | 'theatre' | 'market';
 
 export type PriceLevel = 'free' | '$' | '$$' | '$$$';
 

@@ -1,4 +1,4 @@
-import type { Category } from '../../types';
+import type { Category } from '../types';
 
 export const categories: Category[] = [
   { id: 'museum', name: 'Muzee', icon: 'landmark', count: 24, color: 'bg-amber-100 text-amber-700' },

@@ -4,3 +4,7 @@ export type { Tour, TourTheme, TourStop } from './tour';
 export type { Review } from './review';
 export type { Event } from './event';
 export type { Category } from './category';
+export type { User, UserRole, LoginCredentials, RegisterData } from './user';
+export type { Booking, BookingStatus } from './booking';
+export type { Trip, TripDay, TripItem, SavedPlace } from './trip';
+export type { Notification, NotificationType } from './notification';
