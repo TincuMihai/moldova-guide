@@ -17,12 +17,10 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": false,
-    "baseUrl": "../../../moldovaguide 4",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "include": [
-    "../../../moldovaguide 4/src"
-  ]
+  "include": ["src"]
 }

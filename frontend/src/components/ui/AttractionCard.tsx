@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import type { Attraction } from '../../types';
 import { CATEGORY_LABELS, CATEGORY_COLORS } from '../../constants';
