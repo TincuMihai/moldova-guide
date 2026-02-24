@@ -13,7 +13,14 @@ export default function ProtectedRoute({ children, allowedRoles }: Props) {
       <div className="w-8 h-8 border-[3px] border-brand-500 border-t-transparent rounded-full animate-spin" />
     </div>
   );
-  if (!isAuthenticated) return <Navigate to="/401" state={{ from: location }} replace />;
-  if (allowedRoles && user && !allowedRoles.includes(user.role)) return <Navigate to="/403" replace />;
+
+  // Not logged in → login page (401 logic handled internally)
+  if (!isAuthenticated) return <Navigate to="/login" state={{ from: location }} replace />;
+
+  // Wrong role → show 403 inline
+  if (allowedRoles && user && !allowedRoles.includes(user.role)) {
+    return <Navigate to="/login" state={{ forbidden: true }} replace />;
+  }
+
   return <>{children}</>;
 }
