@@ -40,7 +40,7 @@ export default function ExplorePage() {
   };
 
   return (
-    <div className="pb-16 bg-stone-50 min-h-screen">
+    <div className="pb-16 page-shell">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="section-heading mb-2">Explorează orașul</h1>
@@ -68,11 +68,11 @@ export default function ExplorePage() {
         </div>
 
         {/* Map placeholder */}
-        <div className="relative h-48 md:h-64 rounded-2xl overflow-hidden mb-8 bg-gradient-to-br from-emerald-100 via-sky-50 to-violet-100 border border-slate-200">
+        <div className="relative h-48 md:h-64 rounded-2xl overflow-hidden mb-8 bg-gradient-to-br from-emerald-100 via-sky-50 to-violet-100 border border-slate-200 dark:border-slate-700">
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
               <svg className="w-10 h-10 text-slate-400 mx-auto mb-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" /></svg>
-              <p className="text-sm font-medium text-slate-500">Hartă interactivă</p>
+              <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Hartă interactivă</p>
               <p className="text-xs text-slate-400 mt-1">{attractions.length} locuri pe hartă</p>
             </div>
           </div>
@@ -84,7 +84,7 @@ export default function ExplorePage() {
 
         {/* Results */}
         <div className="flex items-center justify-between mb-6">
-          <p className="text-sm text-slate-500">{attractions.length} rezultate</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">{attractions.length} rezultate</p>
         </div>
 
         {isLoading ? <LoadingSpinner /> : error ? <ErrorState message={error} onRetry={load} /> : attractions.length > 0 ? (
