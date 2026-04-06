@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function Page500() {
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-stone-50 via-white to-sky-50/30 flex items-center justify-center px-4 z-[9999]">
+    <div className="fixed inset-0 bg-gradient-to-br from-stone-50 dark:from-slate-950 via-white dark:via-slate-900 to-sky-50/30 flex items-center justify-center px-4 z-[9999]">
       <div className="text-center max-w-lg animate-fade-up">
         <div className="relative w-64 h-64 mx-auto mb-8">
           <div className="absolute inset-0 rounded-full bg-sky-50/60" />
@@ -45,8 +45,8 @@ export default function Page500() {
           </div>
         </div>
 
-        <h1 className="font-display text-2xl sm:text-3xl font-bold text-slate-800 mb-3">Eroare de server</h1>
-        <p className="text-slate-500 mb-8 max-w-sm mx-auto leading-relaxed">
+        <h1 className="font-display text-2xl sm:text-3xl font-bold text-slate-800 dark:text-slate-200 mb-3">Eroare de server</h1>
+        <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-sm mx-auto leading-relaxed">
           Ceva a mers prost pe server. Echipa noastră a fost notificată. Încearcă din nou sau revino mai târziu.
         </p>
         <div className="flex items-center justify-center gap-3">

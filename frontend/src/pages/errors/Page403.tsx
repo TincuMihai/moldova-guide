@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function Page403() {
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-stone-50 via-white to-red-50/30 flex items-center justify-center px-4 z-[9999]">
+    <div className="fixed inset-0 bg-gradient-to-br from-stone-50 dark:from-slate-950 via-white dark:via-slate-900 to-red-50/30 flex items-center justify-center px-4 z-[9999]">
       <div className="text-center max-w-lg animate-fade-up">
         <div className="relative w-64 h-64 mx-auto mb-8">
           <div className="absolute inset-0 rounded-full bg-red-50/60" />
@@ -30,8 +30,8 @@ export default function Page403() {
           </div>
         </div>
 
-        <h1 className="font-display text-2xl sm:text-3xl font-bold text-slate-800 mb-3">Acces interzis</h1>
-        <p className="text-slate-500 mb-8 max-w-sm mx-auto leading-relaxed">
+        <h1 className="font-display text-2xl sm:text-3xl font-bold text-slate-800 dark:text-slate-200 mb-3">Acces interzis</h1>
+        <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-sm mx-auto leading-relaxed">
           Nu ai permisiunile necesare pentru a accesa această pagină. Contactează administratorul dacă crezi că este o eroare.
         </p>
         <div className="flex items-center justify-center gap-3">
