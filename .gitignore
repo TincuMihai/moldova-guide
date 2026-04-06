@@ -96,4 +96,44 @@ knip.jsonc
 ._*
 *.cache
 private_key.pem
-public_key.pem 
+public_key.pem
+
+#################################
+# .NET Backend
+#################################
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Database files
+*.mdf
+*.ldf
+*.ndf
+*.db
+*.db-shm
+*.db-wal
+
+# Publish output
+publish/
+PublishOutput/
+
+# NuGet local cache
+.nuget/
+**/Properties/serviceDependencies*.json
+
+# dotnet tool
+.config/dotnet-tools.json
+
+# User secrets
+secrets.json
+
+# Visual Studio cache/index
+**/CopilotIndices/
+**/ProjectEvaluation/
+**/FileContentIndex/
