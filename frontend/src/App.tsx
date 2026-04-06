@@ -8,6 +8,10 @@ import ExplorePage from './pages/public/ExplorePage';
 import AttractionDetailsPage from './pages/public/AttractionDetailsPage';
 import BrowseToursPage from './pages/public/BrowseToursPage';
 import TourDetailsPage from './pages/public/TourDetailsPage';
+import AboutPage from './pages/public/AboutPage';
+import ContactPage from './pages/public/ContactPage';
+import TermsPage from './pages/public/TermsPage';
+import PartnershipsPage from './pages/public/PartnershipsPage';
 
 // Auth
 import LoginPage from './pages/auth/LoginPage';
@@ -47,6 +51,10 @@ export default function App() {
           <Route path="/explore/:slug" element={<AttractionDetailsPage />} />
           <Route path="/tours" element={<BrowseToursPage />} />
           <Route path="/tours/:slug" element={<TourDetailsPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/partnerships" element={<PartnershipsPage />} />
 
           {/* === Auth === */}
           <Route path="/login" element={<LoginPage />} />
