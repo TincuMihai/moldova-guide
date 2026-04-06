@@ -24,14 +24,14 @@ export default function TourCard({ tour }: { tour: Tour }) {
         </div>
       </div>
       <div className="p-4 flex-1 flex flex-col">
-        <h3 className="font-display font-bold text-base text-slate-800 mb-1 group-hover:text-brand-600 transition-colors">{tour.title}</h3>
-        <p className="text-xs text-slate-500 mb-3 line-clamp-2 flex-1">{tour.shortDescription}</p>
-        <div className="flex flex-wrap items-center gap-2 mb-3 text-[11px] text-slate-400">
+        <h3 className="font-display font-bold text-base text-slate-800 dark:text-slate-200 mb-1 group-hover:text-brand-600 transition-colors">{tour.title}</h3>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mb-3 line-clamp-2 flex-1">{tour.shortDescription}</p>
+        <div className="flex flex-wrap items-center gap-2 mb-3 text-[11px] text-slate-400 dark:text-slate-500">
           <span className="flex items-center gap-1"><svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>{tour.duration}</span>
-          <span className="px-1.5 py-0.5 rounded bg-slate-100">{DIFFICULTY_LABELS[tour.difficulty]}</span>
+          <span className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800">{DIFFICULTY_LABELS[tour.difficulty]}</span>
           <span>{tour.language.join(', ')}</span>
         </div>
-        <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+        <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800">
           <StarRating rating={tour.rating} reviewCount={tour.reviewCount} size="sm" />
           <div className="text-right">
             <span className="font-display text-lg font-bold text-brand-600">{tour.price}</span>
