@@ -96,4 +96,4 @@ knip.jsonc
 ._*
 *.cache
 private_key.pem
-public_key.pem
+public_key.pem 
