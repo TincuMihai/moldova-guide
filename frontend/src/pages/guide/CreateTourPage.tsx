@@ -1,9 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { tourService } from '../../services';
-import { guides } from '../../data';
-import type { TourTheme, TourStop } from '../../types';
+import { tourService, guideService } from '../../services';
+import type { TourTheme, TourStop, Guide } from '../../types';
 import { THEME_OPTIONS, DIFFICULTY_LABELS } from '../../constants';
 import { SvgIcon } from '../../components/common/UIComponents';
 
@@ -13,6 +12,9 @@ export default function CreateTourPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState<Step>(1);
+  const [allGuides, setAllGuides] = useState<Guide[]>([]);
+
+  useEffect(() => { guideService.getAll().then(setAllGuides); }, []);
   const [isSaving, setIsSaving] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -74,7 +76,7 @@ export default function CreateTourPage() {
   const handleSubmit = useCallback(async () => {
     if (!user) return;
     setIsSaving(true);
-    const guide = guides.find((g) => g.name === user.name) || guides[0];
+    const guide = allGuides.find((g) => g.name === user.name) || allGuides[0];
     try {
       await tourService.create({
         title, description, shortDescription: shortDesc, images, guide,
@@ -93,8 +95,8 @@ export default function CreateTourPage() {
   const stepLabels = ['Informații', 'Traseu', 'Preț & detalii', 'Publicare'];
 
   return (
-    <div className="space-y-6">
-      <h1 className="font-display text-2xl font-bold text-slate-900">Creează un tur nou</h1>
+    <div className="page-shell py-8 px-4 sm:px-6 lg:px-8"><div className="max-w-7xl mx-auto space-y-6">
+      <h1 className="page-title">Creează un tur nou</h1>
 
       {/* Progress stepper */}
       <div className="flex items-center gap-2">
@@ -115,51 +117,51 @@ export default function CreateTourPage() {
         {step === 1 && (
           <div className="space-y-5">
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1.5">Titlu tur</label>
+              <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Titlu tur</label>
               <input value={title} onChange={(e) => setTitle(e.target.value)}
                 className={`input-field ${errors.title ? 'border-red-300' : ''}`} placeholder="Ex: Chișinău: Istoria Ascunsă" />
               {errors.title && <p className="text-xs text-red-500 mt-1">{errors.title}</p>}
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1.5">Descriere scurtă</label>
+              <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Descriere scurtă</label>
               <input value={shortDesc} onChange={(e) => setShortDesc(e.target.value)}
                 className={`input-field ${errors.shortDesc ? 'border-red-300' : ''}`} placeholder="O propoziție despre tur" />
               {errors.shortDesc && <p className="text-xs text-red-500 mt-1">{errors.shortDesc}</p>}
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1.5">Descriere completă</label>
+              <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Descriere completă</label>
               <textarea value={description} onChange={(e) => setDescription(e.target.value)}
                 className={`input-field min-h-[100px] resize-none ${errors.description ? 'border-red-300' : ''}`} />
               {errors.description && <p className="text-xs text-red-500 mt-1">{errors.description}</p>}
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-2">Temă</label>
+              <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2">Temă</label>
               <div className="flex flex-wrap gap-2">
                 {THEME_OPTIONS.filter((t) => t.value !== 'all').map((t) => (
                   <button key={t.value} type="button" onClick={() => setTheme(t.value as TourTheme)}
-                    className={`px-3 py-2 rounded-xl text-sm transition-all ${theme === t.value ? 'bg-brand-500 text-white shadow-md' : 'bg-slate-50 text-slate-600 border border-slate-200 hover:border-slate-300'}`}>
+                    className={`px-3 py-2 rounded-xl text-sm transition-all ${theme === t.value ? 'bg-brand-500 text-white shadow-md' : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'}`}>
                     {t.emoji} {t.label}
                   </button>
                 ))}
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-2">Dificultate</label>
+              <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2">Dificultate</label>
               <div className="flex gap-2">
                 {(Object.entries(DIFFICULTY_LABELS) as [string, string][]).map(([v, l]) => (
                   <button key={v} type="button" onClick={() => setDifficulty(v as 'easy')}
-                    className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${difficulty === v ? 'bg-brand-500 text-white' : 'bg-slate-50 text-slate-600 border border-slate-200'}`}>
+                    className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${difficulty === v ? 'bg-brand-500 text-white' : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'}`}>
                     {l}
                   </button>
                 ))}
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-2">Limbi</label>
+              <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2">Limbi</label>
               <div className="flex flex-wrap gap-2">
                 {['Română', 'English', 'Français', 'Русский'].map((lang) => (
                   <button key={lang} type="button" onClick={() => toggleLang(lang)}
-                    className={`px-3 py-2 rounded-xl text-sm transition-all ${languages.includes(lang) ? 'bg-brand-500 text-white' : 'bg-slate-50 text-slate-600 border border-slate-200'}`}>
+                    className={`px-3 py-2 rounded-xl text-sm transition-all ${languages.includes(lang) ? 'bg-brand-500 text-white' : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'}`}>
                     {lang}
                   </button>
                 ))}
@@ -171,13 +173,13 @@ export default function CreateTourPage() {
         {/* Step 2: Stops */}
         {step === 2 && (
           <div className="space-y-4">
-            <h3 className="font-display font-bold text-slate-800">Opriri pe traseu</h3>
+            <h3 className="font-display font-bold text-slate-800 dark:text-slate-200">Opriri pe traseu</h3>
             {errors.stops && <p className="text-sm text-red-500">{errors.stops}</p>}
             {stops.map((s, i) => (
-              <div key={s.id} className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+              <div key={s.id} className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-800">
                 <span className="w-7 h-7 rounded-full bg-brand-500 text-white text-xs font-bold flex items-center justify-center">{i + 1}</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-slate-700 truncate">{s.name}</p>
+                  <p className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate">{s.name}</p>
                   <p className="text-xs text-slate-400">{s.duration} — {s.description || 'Fără descriere'}</p>
                 </div>
                 <button onClick={() => setStops(stops.filter((_, j) => j !== i))} className="text-slate-400 hover:text-red-500 transition-colors">
@@ -185,7 +187,7 @@ export default function CreateTourPage() {
                 </button>
               </div>
             ))}
-            <div className="p-4 rounded-xl border-2 border-dashed border-slate-200">
+            <div className="p-4 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700">
               <div className="grid sm:grid-cols-3 gap-3 mb-3">
                 <input value={newStopName} onChange={(e) => setNewStopName(e.target.value)} className="input-field text-sm" placeholder="Nume oprire" />
                 <input value={newStopDesc} onChange={(e) => setNewStopDesc(e.target.value)} className="input-field text-sm" placeholder="Descriere scurtă" />
@@ -203,33 +205,33 @@ export default function CreateTourPage() {
           <div className="space-y-4">
             <div className="grid sm:grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">Preț (EUR)</label>
+                <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Preț (EUR)</label>
                 <input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))}
                   className={`input-field ${errors.price ? 'border-red-300' : ''}`} />
                 {errors.price && <p className="text-xs text-red-500 mt-1">{errors.price}</p>}
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">Max participanți</label>
+                <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Max participanți</label>
                 <input type="number" value={maxPart} onChange={(e) => setMaxPart(Number(e.target.value))} className="input-field" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">Durată totală</label>
+                <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Durată totală</label>
                 <input value={duration} onChange={(e) => setDuration(e.target.value)} className="input-field" placeholder="Ex: 4 ore" />
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1.5">Punct de întâlnire</label>
+              <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Punct de întâlnire</label>
               <input value={meetingPoint} onChange={(e) => setMeetingPoint(e.target.value)}
                 className={`input-field ${errors.meetingPoint ? 'border-red-300' : ''}`} placeholder="Ex: Arcul de Triumf" />
               {errors.meetingPoint && <p className="text-xs text-red-500 mt-1">{errors.meetingPoint}</p>}
             </div>
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">Inclus (câte unul pe linie)</label>
+                <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Inclus (câte unul pe linie)</label>
                 <textarea value={included} onChange={(e) => setIncluded(e.target.value)} className="input-field min-h-[80px] resize-none text-sm" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">Nu este inclus</label>
+                <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Nu este inclus</label>
                 <textarea value={excluded} onChange={(e) => setExcluded(e.target.value)} className="input-field min-h-[80px] resize-none text-sm" />
               </div>
             </div>
@@ -240,18 +242,18 @@ export default function CreateTourPage() {
         {step === 4 && (
           <div className="space-y-5">
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1.5">Date disponibile (separate prin virgulă)</label>
+              <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Date disponibile (separate prin virgulă)</label>
               <input value={dates} onChange={(e) => setDates(e.target.value)} className="input-field"
                 placeholder="2026-03-15, 2026-03-22, 2026-03-29" />
               <p className="text-xs text-slate-400 mt-1">Format: AAAA-LL-ZZ</p>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-2">Fotografii (demo)</label>
+              <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2">Fotografii (demo)</label>
               <div className="flex gap-3">
                 {images.map((img, i) => (
                   <img key={i} src={img} alt="" className="w-28 h-20 rounded-xl object-cover ring-2 ring-brand-200" />
                 ))}
-                <div className="w-28 h-20 rounded-xl border-2 border-dashed border-slate-200 flex items-center justify-center text-slate-400">
+                <div className="w-28 h-20 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-400">
                   <SvgIcon d="M12 4.5v15m7.5-7.5h-15" className="w-5 h-5" />
                 </div>
               </div>
@@ -272,7 +274,7 @@ export default function CreateTourPage() {
         )}
 
         {/* Navigation */}
-        <div className="flex items-center justify-between mt-8 pt-5 border-t border-slate-100">
+        <div className="flex items-center justify-between mt-8 pt-5 border-t border-slate-100 dark:border-slate-800">
           {step > 1 ? (
             <button onClick={prevStep} className="btn-secondary text-sm">← Înapoi</button>
           ) : <div />}
@@ -285,6 +287,6 @@ export default function CreateTourPage() {
           )}
         </div>
       </div>
-    </div>
+    </div></div>
   );
 }

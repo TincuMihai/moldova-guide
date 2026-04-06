@@ -34,12 +34,12 @@ export default function GuideDashboard() {
   const maxE = Math.max(...earnings, 1);
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell py-8 px-4 sm:px-6 lg:px-8"><div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="font-display text-2xl font-bold text-slate-900">Panou ghid</h1>
-          <p className="text-sm text-slate-500 mt-1">Bine ai revenit, {user?.name?.split(' ')[0]}!</p>
+          <h1 className="page-title">Panou ghid</h1>
+          <p className="page-subtitle">Bine ai revenit, {user?.name?.split(' ')[0]}!</p>
         </div>
         <Link to="/guide/create-tour" className="btn-primary text-sm">
           <SvgIcon d="M12 4.5v15m7.5-7.5h-15" className="w-4 h-4" />
@@ -60,7 +60,7 @@ export default function GuideDashboard() {
               <span className="text-2xl">{s.emoji}</span>
             </div>
             <p className={`font-display text-2xl font-bold ${s.accent}`}>{s.value}</p>
-            <p className="text-xs text-slate-500 mt-1">{s.label}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
           </div>
         ))}
       </div>
@@ -69,11 +69,11 @@ export default function GuideDashboard() {
         <div className="lg:col-span-2 space-y-6">
           {/* Earnings chart */}
           <div className="card p-6">
-            <h2 className="font-display text-lg font-bold text-slate-900 mb-6">Câștiguri lunare</h2>
+            <h2 className="font-display text-lg font-bold text-slate-900 dark:text-white mb-6">Câștiguri lunare</h2>
             <div className="flex items-end gap-3 h-44">
               {months.map((m, i) => (
                 <div key={m} className="flex-1 flex flex-col items-center gap-2">
-                  <span className="text-xs font-semibold text-slate-600">{earnings[i]}€</span>
+                  <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">{earnings[i]}€</span>
                   <div
                     className="w-full rounded-t-xl bg-gradient-to-t from-brand-500 to-brand-400 transition-all duration-500"
                     style={{ height: `${(earnings[i] / maxE) * 100}%`, minHeight: '8px' }}
@@ -87,22 +87,22 @@ export default function GuideDashboard() {
           {/* My tours */}
           <div className="card p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display text-lg font-bold text-slate-900">Tururile mele</h2>
+              <h2 className="font-display text-lg font-bold text-slate-900 dark:text-white">Tururile mele</h2>
               <Link to="/guide/my-tours" className="text-sm text-brand-500 font-medium hover:underline">Gestionează →</Link>
             </div>
             {tours.length > 0 ? (
               <div className="space-y-3">
                 {tours.slice(0, 4).map((t) => (
-                  <div key={t.id} className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors">
+                  <div key={t.id} className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                     <img src={t.images[0]} alt="" className="w-14 h-14 rounded-xl object-cover flex-shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-sm text-slate-800 truncate">{t.title}</h3>
+                      <h3 className="font-semibold text-sm text-slate-800 dark:text-slate-200 truncate">{t.title}</h3>
                       <div className="flex items-center gap-3 mt-1">
                         <StarRating rating={t.rating} size="sm" />
                         <span className="text-xs text-slate-400">{t.price} {t.currency}</span>
                       </div>
                     </div>
-                    <span className={`badge border text-[10px] ${t.isActive ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-slate-50 text-slate-500 border-slate-200'}`}>
+                    <span className={`badge border text-[10px] ${t.isActive ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700'}`}>
                       {t.isActive ? 'Activ' : 'Pauză'}
                     </span>
                   </div>
@@ -120,17 +120,17 @@ export default function GuideDashboard() {
         {/* Right sidebar */}
         <div className="space-y-6">
           <div className="card p-6">
-            <h2 className="font-display text-lg font-bold text-slate-900 mb-4">Rezervări recente</h2>
+            <h2 className="font-display text-lg font-bold text-slate-900 dark:text-white mb-4">Rezervări recente</h2>
             {pendingBookings.length > 0 ? (
               <div className="space-y-3">
                 {pendingBookings.slice(0, 5).map((b) => (
-                  <div key={b.id} className="p-3 rounded-xl bg-slate-50 space-y-1">
+                  <div key={b.id} className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 space-y-1">
                     <div className="flex items-start justify-between gap-2">
-                      <h3 className="text-sm font-semibold text-slate-800 truncate">{b.tourTitle}</h3>
+                      <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">{b.tourTitle}</h3>
                       <StatusBadge status={b.status} />
                     </div>
                     <p className="text-xs text-slate-400">{b.date} · {b.participants} pers.</p>
-                    <p className="text-xs font-semibold text-slate-600">{b.totalPrice} {b.currency}</p>
+                    <p className="text-xs font-semibold text-slate-600 dark:text-slate-400">{b.totalPrice} {b.currency}</p>
                   </div>
                 ))}
               </div>
@@ -148,6 +148,6 @@ export default function GuideDashboard() {
           </div>
         </div>
       </div>
-    </div>
+    </div></div>
   );
 }
