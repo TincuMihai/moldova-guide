@@ -1,10 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { attractionService } from '../../services';
-import { tours } from '../../data/tours';
-import { events } from '../../data/events';
-import { categories } from '../../data/categories';
-import type { Attraction } from '../../types';
+import { attractionService, tourService, eventService, categoryService } from '../../services';
+import type { Attraction, Tour, Category } from '../../types';
+import type { Event } from '../../types/event';
 import { CATEGORY_ICONS, STATS_PLATFORM } from '../../constants';
 import AttractionCard from '../../components/ui/AttractionCard';
 import TourCard from '../../components/ui/TourCard';
@@ -13,12 +11,19 @@ import { SvgIcon } from '../../components/common/UIComponents';
 export default function HomePage() {
   const [search, setSearch] = useState('');
   const [featured, setFeatured] = useState<Attraction[]>([]);
+  const [allTours, setAllTours] = useState<Tour[]>([]);
+  const [allEvents, setAllEvents] = useState<Event[]>([]);
+  const [allCategories, setAllCategories] = useState<Category[]>([]);
   const navigate = useNavigate();
 
-  useEffect(() => { attractionService.getFeatured().then(setFeatured); }, []);
+  useEffect(() => {
+    attractionService.getFeatured().then(setFeatured);
+    tourService.getAll().then(t => setAllTours(t));
+    eventService.getUpcoming(3).then(setAllEvents);
+    categoryService.getAll().then(setAllCategories);
+  }, []);
 
-  const featuredTours = useMemo(() => tours.filter((t) => t.isFeatured).slice(0, 3), []);
-  const upcomingEvents = useMemo(() => events.slice(0, 3), []);
+  const featuredTours = useMemo(() => allTours.filter((t) => t.isFeatured).slice(0, 3), [allTours]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,15 +54,11 @@ export default function HomePage() {
           <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto">
             Explorează atracții unice, rezervă tururi ghidate și planifică-ți călătoria perfectă.
           </p>
-
-          {/* Search */}
           <form onSubmit={handleSearch} className="relative max-w-xl mx-auto mb-10">
             <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
-            <input value={search} onChange={(e) => setSearch(e.target.value)} className="w-full pl-12 pr-32 py-4 bg-white/95 backdrop-blur-sm rounded-2xl text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-2xl" placeholder="Caută atracții, tururi, restaurante..." />
+            <input value={search} onChange={(e) => setSearch(e.target.value)} className="w-full pl-12 pr-32 py-4 bg-white/95 backdrop-blur-sm rounded-2xl text-slate-800 dark:text-slate-200 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-2xl" placeholder="Caută atracții, tururi, restaurante..." />
             <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 btn-primary py-2.5 px-5 text-sm">Caută</button>
           </form>
-
-          {/* Stats */}
           <div className="flex flex-wrap justify-center gap-8 lg:gap-16">
             {stats.map((s) => (
               <div key={s.label} className="text-center">
@@ -67,27 +68,25 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-
-        {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
           <svg className="w-6 h-6 text-white/40" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
         </div>
       </section>
 
       {/* CATEGORIES */}
-      <section className="py-16 lg:py-24 bg-stone-50">
+      <section className="py-16 lg:py-24 bg-stone-50 dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="section-heading mb-3">Explorează pe categorii</h2>
             <p className="section-subheading mx-auto">Descoperă locurile care te inspiră</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            {categories.map((cat) => (
+            {allCategories.map((cat) => (
               <Link key={cat.id} to={`/explore?category=${cat.id}`} className="card-elevated p-5 text-center group">
                 <div className={`w-12 h-12 mx-auto mb-3 rounded-2xl ${cat.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                  <SvgIcon d={CATEGORY_ICONS[cat.id]} className="w-6 h-6" />
+                  <SvgIcon d={CATEGORY_ICONS[cat.id as keyof typeof CATEGORY_ICONS] || ''} className="w-6 h-6" />
                 </div>
-                <h3 className="font-display font-semibold text-sm text-slate-800 mb-0.5">{cat.name}</h3>
+                <h3 className="font-display font-semibold text-sm text-slate-800 dark:text-slate-200 mb-0.5">{cat.name}</h3>
                 <p className="text-xs text-slate-400">{cat.count} locuri</p>
               </Link>
             ))}
@@ -96,32 +95,24 @@ export default function HomePage() {
       </section>
 
       {/* FEATURED ATTRACTIONS */}
-      <section className="py-16 lg:py-24 bg-white">
+      <section className="py-16 lg:py-24 bg-white dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-10">
-            <div>
-              <h2 className="section-heading mb-2">Destinații populare</h2>
-              <p className="section-subheading">Cele mai vizitate locuri din Moldova</p>
-            </div>
+            <div><h2 className="section-heading mb-2">Destinații populare</h2><p className="section-subheading">Cele mai vizitate locuri din Moldova</p></div>
             <Link to="/explore" className="btn-secondary text-sm hidden sm:inline-flex">Vezi toate</Link>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {featured.map((a) => <AttractionCard key={a.id} attraction={a} />)}
           </div>
-          <div className="mt-6 text-center sm:hidden">
-            <Link to="/explore" className="btn-secondary text-sm">Vezi toate atracțiile</Link>
-          </div>
+          <div className="mt-6 text-center sm:hidden"><Link to="/explore" className="btn-secondary text-sm">Vezi toate atracțiile</Link></div>
         </div>
       </section>
 
       {/* FEATURED TOURS */}
-      <section className="py-16 lg:py-24 bg-stone-50">
+      <section className="py-16 lg:py-24 bg-stone-50 dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-10">
-            <div>
-              <h2 className="section-heading mb-2">Tururi recomandate</h2>
-              <p className="section-subheading">Experiențe ghidate de localnici pasionați</p>
-            </div>
+            <div><h2 className="section-heading mb-2">Tururi recomandate</h2><p className="section-subheading">Experiențe ghidate de localnici pasionați</p></div>
             <Link to="/tours" className="btn-secondary text-sm hidden sm:inline-flex">Toate tururile</Link>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -131,28 +122,26 @@ export default function HomePage() {
       </section>
 
       {/* EVENTS */}
-      <section className="py-16 lg:py-24 bg-white">
+      <section className="py-16 lg:py-24 bg-white dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-heading mb-10 text-center">Evenimente viitoare</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {upcomingEvents.map((ev) => (
-              <div key={ev.id} className="card-elevated overflow-hidden group">
+            {allEvents.map((ev) => (
+              <Link key={ev.id} to={`/explore?search=${encodeURIComponent(ev.title)}`} className="card-elevated overflow-hidden group">
                 <div className="relative h-44 overflow-hidden">
                   <img src={ev.image} alt={ev.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                  <span className="absolute top-3 left-3 badge bg-white/90 backdrop-blur-sm text-slate-700">{ev.category}</span>
+                  <span className="absolute top-3 left-3 badge bg-white/90 backdrop-blur-sm text-slate-700 dark:text-slate-300">{ev.category}</span>
                 </div>
                 <div className="p-4">
                   <div className="flex items-center gap-2 text-xs text-brand-600 font-semibold mb-2">
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>
                     {ev.date} · {ev.time}
                   </div>
-                  <h3 className="font-display font-bold text-base text-slate-800 mb-1">{ev.title}</h3>
-                  <p className="text-xs text-slate-500 mb-3">{ev.venue}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-brand-600">{ev.price}</span>
-                  </div>
+                  <h3 className="font-display font-bold text-base text-slate-800 dark:text-slate-200 mb-1 group-hover:text-brand-600 transition-colors">{ev.title}</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">{ev.venue}</p>
+                  <span className="text-sm font-semibold text-brand-600">{ev.price}</span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -164,7 +153,7 @@ export default function HomePage() {
           <h2 className="font-display text-3xl lg:text-4xl font-bold text-white mb-4">Gata de aventură?</h2>
           <p className="text-brand-100 mb-8 max-w-lg mx-auto">Creează-ți cont gratuit și începe să explorezi cele mai frumoase locuri din Moldova.</p>
           <div className="flex items-center justify-center gap-4">
-            <Link to="/login" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-brand-600 font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all">Începe acum</Link>
+            <Link to="/login" className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-slate-900 text-brand-600 font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all">Începe acum</Link>
             <Link to="/tours" className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all">Descoperă tururi</Link>
           </div>
         </div>
