@@ -32,10 +32,10 @@ export default function AdminErrorPages() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell py-8 px-4 sm:px-6 lg:px-8"><div className="space-y-6">
       <div>
-        <h1 className="font-display text-2xl font-bold text-slate-900">Pagini de eroare HTTP</h1>
-        <p className="text-sm text-slate-500 mt-1">Previzualizează și testează paginile de eroare ale platformei.</p>
+        <h1 className="page-title">Pagini de eroare HTTP</h1>
+        <p className="page-subtitle">Previzualizează și testează paginile de eroare ale platformei.</p>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-4">
@@ -45,22 +45,22 @@ export default function AdminErrorPages() {
             <div className={`inline-flex items-center px-3 py-1.5 rounded-xl border text-xs font-bold mb-3 ${info.color}`}>
               {code}
             </div>
-            <h3 className="font-display font-bold text-slate-800 mb-1 group-hover:text-brand-600 transition-colors">{info.title}</h3>
-            <p className="text-sm text-slate-500">{info.desc}</p>
+            <h3 className="font-display font-bold text-slate-800 dark:text-slate-200 mb-1 group-hover:text-brand-600 transition-colors">{info.title}</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400">{info.desc}</p>
             <div className="mt-4 text-xs text-brand-500 font-medium group-hover:underline">Previzualizează →</div>
           </button>
         ))}
       </div>
 
       <div className="card p-6 bg-slate-50/50">
-        <h3 className="font-display font-bold text-slate-700 text-sm mb-2">💡 Cum funcționează</h3>
-        <div className="text-sm text-slate-500 space-y-1">
+        <h3 className="font-display font-bold text-slate-700 dark:text-slate-300 text-sm mb-2">💡 Cum funcționează</h3>
+        <div className="text-sm text-slate-500 dark:text-slate-400 space-y-1">
           <p>• <strong>401</strong> — Se afișează când un utilizator neautentificat accesează o rută protejată</p>
           <p>• <strong>403</strong> — Se afișează când un utilizator autentificat nu are rolul necesar</p>
           <p>• <strong>404</strong> — Se afișează pentru orice URL inexistent</p>
           <p>• <strong>500</strong> — Se afișează la erori de server (simulate în demo)</p>
         </div>
       </div>
-    </div>
+    </div></div>
   );
 }
