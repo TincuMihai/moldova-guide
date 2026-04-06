@@ -1,16 +1,16 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AuthProvider } from './context/AuthContext';
-import { MaintenanceProvider } from './context/MaintenanceContext';
+import { ThemeProvider } from './context/ThemeContext';
 import App from './App';
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <AuthProvider>
-      <MaintenanceProvider>
+    <ThemeProvider>
+      <AuthProvider>
         <App />
-      </MaintenanceProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </ThemeProvider>
   </StrictMode>,
 );
