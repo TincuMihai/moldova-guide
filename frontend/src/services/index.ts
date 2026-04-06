@@ -4,3 +4,8 @@ export { tourService } from './tourService';
 export { bookingService } from './bookingService';
 export { tripService } from './tripService';
 export { savedPlacesService } from './savedPlacesService';
+export { eventService } from './eventService';
+export { reviewService } from './reviewService';
+export { notificationService } from './notificationService';
+export { categoryService } from './categoryService';
+export { guideService } from './guideService';

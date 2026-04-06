@@ -25,7 +25,7 @@ export default function BrowseToursPage() {
   useEffect(() => { load(); }, [load]);
 
   return (
-    <div className="pb-16 bg-stone-50 min-h-screen">
+    <div className="pb-16 page-shell">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="section-heading mb-2">Tururi ghidate</h1>
@@ -36,7 +36,7 @@ export default function BrowseToursPage() {
         <div className="flex flex-wrap gap-2 mb-6 overflow-x-auto pb-2 scrollbar-none">
           {THEME_OPTIONS.map((t) => (
             <button key={t.value} onClick={() => setTheme(t.value)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${theme === t.value ? 'bg-brand-500 text-white shadow-md shadow-brand-500/25' : 'bg-white text-slate-600 border border-slate-200 hover:border-brand-200'}`}>
+              className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${theme === t.value ? 'bg-brand-500 text-white shadow-md shadow-brand-500/25' : 'bg-white dark:bg-slate-900 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:border-brand-200'}`}>
               {t.emoji} {t.label}
             </button>
           ))}
@@ -61,7 +61,7 @@ export default function BrowseToursPage() {
           </div>
         </div>
 
-        <p className="text-sm text-slate-500 mb-6">{tours.length} tururi disponibile</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">{tours.length} tururi disponibile</p>
 
         {isLoading ? <LoadingSpinner /> : error ? <ErrorState message={error} onRetry={load} /> : tours.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

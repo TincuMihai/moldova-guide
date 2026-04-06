@@ -12,7 +12,7 @@ export default function StarRating({ rating, reviewCount, size = 'md' }: Props) 
           </svg>
         ))}
       </div>
-      <span className={`${txt} font-semibold text-slate-700`}>{rating.toFixed(1)}</span>
+      <span className={`${txt} font-semibold text-slate-700 dark:text-slate-300`}>{rating.toFixed(1)}</span>
       {reviewCount !== undefined && <span className={`${txt} text-slate-400`}>({reviewCount})</span>}
     </div>
   );

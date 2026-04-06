@@ -40,9 +40,9 @@ export default function MyToursPage() {
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell py-8 px-4 sm:px-6 lg:px-8"><div className="max-w-7xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <h1 className="font-display text-2xl font-bold text-slate-900">Tururile mele</h1>
+        <h1 className="page-title">Tururile mele</h1>
         <Link to="/guide/create-tour" className="btn-primary text-sm">
           <SvgIcon d="M12 4.5v15m7.5-7.5h-15" className="w-4 h-4" /> Tur nou
         </Link>
@@ -63,20 +63,20 @@ export default function MyToursPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-3 mb-2">
                     <div>
-                      <h3 className="font-display font-bold text-base text-slate-800">{tour.title}</h3>
-                      <div className="flex items-center gap-3 mt-1 text-sm text-slate-500">
-                        <span className="badge bg-slate-50 text-slate-500 border border-slate-200 text-xs">
+                      <h3 className="font-display font-bold text-base text-slate-800 dark:text-slate-200">{tour.title}</h3>
+                      <div className="flex items-center gap-3 mt-1 text-sm text-slate-500 dark:text-slate-400">
+                        <span className="badge bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 text-xs">
                           {THEME_LABELS[tour.theme] || tour.theme}
                         </span>
                         <span>{tour.duration}</span>
                         <span className="font-semibold">{tour.price} {tour.currency}</span>
                       </div>
                     </div>
-                    <span className={`badge border text-xs flex-shrink-0 ${tour.isActive ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-slate-50 text-slate-500 border-slate-200'}`}>
+                    <span className={`badge border text-xs flex-shrink-0 ${tour.isActive ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700'}`}>
                       {tour.isActive ? '● Activ' : '○ Pauză'}
                     </span>
                   </div>
-                  <p className="text-sm text-slate-500 line-clamp-1 mb-3">{tour.shortDescription}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-1 mb-3">{tour.shortDescription}</p>
                   <div className="flex items-center gap-4 mb-3">
                     <StarRating rating={tour.rating} reviewCount={tour.reviewCount} />
                     <span className="text-xs text-slate-400">{tour.language.join(', ')}</span>
@@ -88,7 +88,7 @@ export default function MyToursPage() {
                       {tour.isActive ? '⏸ Pune pe pauză' : '▶ Activează'}
                     </button>
                     <Link to={`/tours/${tour.slug}`}
-                      className="text-xs font-medium px-3 py-1.5 rounded-lg text-slate-600 bg-slate-50 hover:bg-slate-100 transition-all">
+                      className="text-xs font-medium px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
                       👁 Previzualizare
                     </Link>
                     <button onClick={() => setDeleteId(tour.id)}
@@ -112,6 +112,6 @@ export default function MyToursPage() {
       <ConfirmDialog isOpen={!!deleteId} onClose={() => setDeleteId(null)} onConfirm={handleDelete}
         title="Șterge turul" message="Ești sigur? Toate datele asociate turului vor fi pierdute."
         confirmText="Șterge definitiv" variant="danger" />
-    </div>
+    </div></div>
   );
 }

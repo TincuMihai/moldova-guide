@@ -27,10 +27,10 @@ export default function AdminAttractions() {
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell py-8 px-4 sm:px-6 lg:px-8"><div className="space-y-6">
       <div>
-        <h1 className="font-display text-2xl font-bold text-slate-900">Gestionare atracții</h1>
-        <p className="text-sm text-slate-500 mt-1">{attractions.length} atracții turistice</p>
+        <h1 className="page-title">Gestionare atracții</h1>
+        <p className="page-subtitle">{attractions.length} atracții turistice</p>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">
@@ -39,9 +39,9 @@ export default function AdminAttractions() {
           <input value={search} onChange={e => setSearch(e.target.value)} className="input-field pl-10" placeholder="Caută atracții..." />
         </div>
         <div className="flex gap-2 flex-wrap">
-          <button onClick={() => setCatFilter('all')} className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all ${catFilter === 'all' ? 'bg-brand-500 text-white' : 'bg-white text-slate-600 border border-slate-200'}`}>Toate</button>
+          <button onClick={() => setCatFilter('all')} className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all ${catFilter === 'all' ? 'bg-brand-500 text-white' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'}`}>Toate</button>
           {cats.map(c => (
-            <button key={c} onClick={() => setCatFilter(c)} className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all ${catFilter === c ? 'bg-brand-500 text-white' : 'bg-white text-slate-600 border border-slate-200'}`}>
+            <button key={c} onClick={() => setCatFilter(c)} className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all ${catFilter === c ? 'bg-brand-500 text-white' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'}`}>
               {CATEGORY_LABELS[c]}
             </button>
           ))}
@@ -54,21 +54,21 @@ export default function AdminAttractions() {
             <img src={a.images[0]} alt="" className="w-full h-36 object-cover" />
             <div className="p-4">
               <div className="flex items-start justify-between gap-2 mb-2">
-                <h3 className="font-semibold text-sm text-slate-800">{a.name}</h3>
+                <h3 className="font-semibold text-sm text-slate-800 dark:text-slate-200">{a.name}</h3>
                 <span className={`badge border text-[10px] ${CATEGORY_COLORS[a.category]}`}>{CATEGORY_LABELS[a.category]}</span>
               </div>
-              <p className="text-xs text-slate-500 mb-3">{a.city} · ⭐ {a.rating} · {a.reviewCount} recenzii</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">{a.city} · ⭐ {a.rating} · {a.reviewCount} recenzii</p>
               <div className="flex items-center gap-2 text-xs">
-                <span className={`px-2 py-1 rounded-lg ${a.isFeatured ? 'bg-amber-50 text-amber-600' : 'bg-slate-50 text-slate-400'}`}>
+                <span className={`px-2 py-1 rounded-lg ${a.isFeatured ? 'bg-amber-50 text-amber-600' : 'bg-slate-50 dark:bg-slate-800 text-slate-400'}`}>
                   {a.isFeatured ? '⭐ Featured' : '— Normal'}
                 </span>
-                <span className="px-2 py-1 rounded-lg bg-slate-50 text-slate-500">{a.priceLevel === 'free' ? 'Gratuit' : a.priceLevel}</span>
+                <span className="px-2 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400">{a.priceLevel === 'free' ? 'Gratuit' : a.priceLevel}</span>
               </div>
             </div>
           </div>
         ))}
       </div>
       {filtered.length === 0 && <div className="text-center py-12"><p className="text-sm text-slate-400">Nicio atracție găsită</p></div>}
-    </div>
+    </div></div>
   );
 }

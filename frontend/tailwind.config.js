@@ -4,6 +4,25 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
+  safelist: [
+    'dark',
+    'dark:bg-slate-950', 'dark:bg-slate-900', 'dark:bg-slate-800',
+    'dark:text-white', 'dark:text-slate-200', 'dark:text-slate-300', 'dark:text-slate-400', 'dark:text-slate-500',
+    'dark:border-slate-800', 'dark:border-slate-700',
+    'dark:hover:bg-slate-800', 'dark:hover:border-slate-600', 'dark:hover:border-slate-700',
+    'dark:ring-brand-900',
+    'dark:bg-brand-950', 'dark:text-brand-400',
+    'dark:bg-emerald-950', 'dark:text-emerald-400', 'dark:border-emerald-800',
+    'dark:bg-violet-950', 'dark:text-violet-400',
+    'dark:bg-sky-950', 'dark:text-sky-400',
+    'dark:bg-amber-950', 'dark:text-amber-400',
+    'dark:bg-orange-950', 'dark:text-orange-400',
+    'dark:bg-red-950', 'dark:border-red-900',
+    'dark:placeholder:text-slate-500',
+    'dark:shadow-slate-900/50',
+    'dark:from-slate-950', 'dark:via-slate-900',
+  ],
   theme: {
     extend: {
       colors: {
@@ -33,10 +52,6 @@ export default {
           900: '#14531d',
           950: '#052e0c',
         },
-        slate: {
-          850: '#172032',
-          950: '#0a0f1a',
-        }
       },
       fontFamily: {
         display: ['"Playfair Display"', 'Georgia', 'serif'],

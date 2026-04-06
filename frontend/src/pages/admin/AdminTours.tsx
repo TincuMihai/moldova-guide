@@ -34,11 +34,11 @@ export default function AdminTours() {
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell py-8 px-4 sm:px-6 lg:px-8"><div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-2xl font-bold text-slate-900">Gestionare tururi</h1>
-          <p className="text-sm text-slate-500 mt-1">{tours.length} tururi pe platformă</p>
+          <h1 className="page-title">Gestionare tururi</h1>
+          <p className="page-subtitle">{tours.length} tururi pe platformă</p>
         </div>
       </div>
 
@@ -54,13 +54,13 @@ export default function AdminTours() {
               <img src={tour.images[0]} alt="" className="w-full sm:w-36 h-24 rounded-xl object-cover flex-shrink-0" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-3 mb-1">
-                  <h3 className="font-semibold text-sm text-slate-800">{tour.title}</h3>
-                  <span className={`badge border text-[10px] flex-shrink-0 ${tour.isActive ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-slate-50 text-slate-500 border-slate-200'}`}>
+                  <h3 className="font-semibold text-sm text-slate-800 dark:text-slate-200">{tour.title}</h3>
+                  <span className={`badge border text-[10px] flex-shrink-0 ${tour.isActive ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700'}`}>
                     {tour.isActive ? '● Activ' : '○ Suspendat'}
                   </span>
                 </div>
-                <div className="flex flex-wrap items-center gap-2 mb-2 text-xs text-slate-500">
-                  <span className="badge bg-slate-50 text-slate-500 border border-slate-200 text-[10px]">{THEME_LABELS[tour.theme]}</span>
+                <div className="flex flex-wrap items-center gap-2 mb-2 text-xs text-slate-500 dark:text-slate-400">
+                  <span className="badge bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 text-[10px]">{THEME_LABELS[tour.theme]}</span>
                   <span>Ghid: {tour.guide.name}</span>
                   <span>{tour.price} {tour.currency}</span>
                   <StarRating rating={tour.rating} size="sm" />
@@ -84,6 +84,6 @@ export default function AdminTours() {
       <ConfirmDialog isOpen={!!deleteId} onClose={() => setDeleteId(null)} onConfirm={handleDelete}
         title="Șterge turul" message="Ești sigur? Turul și rezervările asociate vor fi șterse permanent."
         confirmText="Șterge" variant="danger" />
-    </div>
+    </div></div>
   );
 }

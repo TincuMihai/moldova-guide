@@ -1,83 +1,65 @@
 import { useState } from 'react';
-import { useMaintenance } from '../../context/MaintenanceContext';
 
 export default function AdminSettings() {
-  const { isMaintenanceMode, toggleMaintenance, maintenanceMessage, setMaintenanceMessage, maintenanceSince } = useMaintenance();
-  const [msg, setMsg] = useState(maintenanceMessage);
+  const [siteName] = useState('MoldovaGuide');
+  const [siteVersion] = useState('4.0.0');
   const [saved, setSaved] = useState(false);
 
-  const handleSaveMsg = () => { setMaintenanceMessage(msg); setSaved(true); setTimeout(() => setSaved(false), 2000); };
-
-  const formatDate = (iso: string | null) => {
-    if (!iso) return '—';
-    return new Date(iso).toLocaleString('ro-RO', { dateStyle: 'medium', timeStyle: 'short' });
+  const handleClearCache = () => {
+    const keys = ['moldovaguide_bookings','moldovaguide_tours','moldovaguide_reviews','moldovaguide_notifications','moldovaguide_saved','moldovaguide_trips'];
+    keys.forEach(k => localStorage.removeItem(k));
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
   };
 
   return (
-    <div className="space-y-6 max-w-3xl">
-      <div>
-        <h1 className="font-display text-2xl font-bold text-slate-900">Setări platformă</h1>
-        <p className="text-sm text-slate-500 mt-1">Configurează platforma MoldovaGuide.</p>
-      </div>
-
-      {/* Maintenance mode */}
-      <div className="card p-6 space-y-5">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="font-display text-lg font-bold text-slate-900">Mod mentenanță</h2>
-            <p className="text-sm text-slate-500 mt-0.5">Când este activ, vizitatorii văd o pagină de mentenanță.</p>
-          </div>
-          <button onClick={toggleMaintenance}
-            className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors duration-300 ${isMaintenanceMode ? 'bg-red-500' : 'bg-slate-200'}`}>
-            <span className={`inline-block h-5 w-5 rounded-full bg-white shadow transform transition-transform duration-300 ${isMaintenanceMode ? 'translate-x-6' : 'translate-x-1'}`} />
-          </button>
+    <div className="page-shell py-8 px-4 sm:px-6 lg:px-8">
+      <div className="space-y-6 max-w-3xl">
+        <div>
+          <h1 className="page-title">Setări platformă</h1>
+          <p className="page-subtitle">Configurare generală a platformei.</p>
         </div>
 
-        {isMaintenanceMode && (
-          <div className="p-4 rounded-xl bg-red-50/70 border border-red-100 space-y-1">
-            <p className="text-sm font-semibold text-red-700">🔧 Mentenanța este activă</p>
-            <p className="text-xs text-red-500">Activă din: {formatDate(maintenanceSince)}</p>
+        {saved && (
+          <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-800 flex items-center gap-3">
+            <svg className="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+            <p className="text-sm font-medium text-emerald-700 dark:text-emerald-300">Cache-ul a fost curățat cu succes.</p>
           </div>
         )}
 
-        <div>
-          <label className="block text-xs font-semibold text-slate-600 mb-1.5">Mesaj mentenanță</label>
-          <textarea value={msg} onChange={e => setMsg(e.target.value)}
-            className="input-field min-h-[80px] resize-none text-sm" placeholder="Mesajul afișat vizitatorilor..." />
-        </div>
-        <div className="flex items-center gap-3">
-          <button onClick={handleSaveMsg} className="btn-primary text-sm">Salvează mesajul</button>
-          {saved && <span className="text-sm text-emerald-600 font-medium animate-fade-in">✓ Salvat!</span>}
-        </div>
-      </div>
-
-      {/* Platform info */}
-      <div className="card p-6 space-y-4">
-        <h2 className="font-display text-lg font-bold text-slate-900">Informații platformă</h2>
-        <div className="grid sm:grid-cols-2 gap-4">
-          {[
-            { label: 'Versiune', value: 'v2.1.3' },
-            { label: 'Framework', value: 'React 18 + TypeScript' },
-            { label: 'CSS', value: 'Tailwind CSS' },
-            { label: 'Persistență', value: 'localStorage (demo)' },
-            { label: 'Roluri', value: '3 (Tourist, Ghid, Admin)' },
-            { label: 'Total pagini', value: '23+' },
-          ].map(item => (
-            <div key={item.label} className="flex items-center justify-between p-3 rounded-xl bg-slate-50">
-              <span className="text-sm text-slate-500">{item.label}</span>
-              <span className="text-sm font-semibold text-slate-700">{item.value}</span>
+        <div className="card p-6">
+          <h2 className="font-display text-lg font-bold text-slate-900 dark:text-white mb-4">Informații platformă</h2>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between py-3 border-b border-slate-100 dark:border-slate-800">
+              <span className="text-sm text-slate-600 dark:text-slate-400">Nume platformă</span>
+              <span className="text-sm font-semibold text-slate-900 dark:text-white">{siteName}</span>
             </div>
-          ))}
+            <div className="flex items-center justify-between py-3 border-b border-slate-100 dark:border-slate-800">
+              <span className="text-sm text-slate-600 dark:text-slate-400">Versiune</span>
+              <span className="badge bg-brand-50 dark:bg-brand-950 text-brand-600 dark:text-brand-400 border border-brand-200 dark:border-brand-800">v{siteVersion}</span>
+            </div>
+            <div className="flex items-center justify-between py-3 border-b border-slate-100 dark:border-slate-800">
+              <span className="text-sm text-slate-600 dark:text-slate-400">Tailwind CSS</span>
+              <span className="text-sm font-semibold text-slate-900 dark:text-white">v4.1</span>
+            </div>
+            <div className="flex items-center justify-between py-3 border-b border-slate-100 dark:border-slate-800">
+              <span className="text-sm text-slate-600 dark:text-slate-400">React</span>
+              <span className="text-sm font-semibold text-slate-900 dark:text-white">v18.3</span>
+            </div>
+            <div className="flex items-center justify-between py-3">
+              <span className="text-sm text-slate-600 dark:text-slate-400">Dark mode</span>
+              <span className="badge bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">Activ</span>
+            </div>
+          </div>
         </div>
-      </div>
 
-      {/* Danger zone */}
-      <div className="card p-6 border-red-100">
-        <h2 className="font-display text-lg font-bold text-red-600 mb-2">Zonă periculoasă</h2>
-        <p className="text-sm text-slate-500 mb-4">Aceste acțiuni sunt ireversibile.</p>
-        <div className="flex flex-wrap gap-3">
-          <button onClick={() => { localStorage.clear(); window.location.reload(); }}
-            className="btn-danger text-sm">🗑 Resetează toate datele</button>
+        <div className="card p-6 border-red-200 dark:border-red-900">
+          <h2 className="font-display text-lg font-bold text-red-600 dark:text-red-400 mb-2">Zonă periculoasă</h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Acțiuni ireversibile care afectează datele platformei.</p>
+          <div className="space-y-3">
+            <button onClick={handleClearCache} className="btn-danger text-sm">Curăță cache-ul platformei</button>
+            <p className="text-xs text-slate-400">Resetează datele locale (rezervări, recenzii, notificări). Conturile și tururile rămân intacte.</p>
+          </div>
         </div>
       </div>
     </div>

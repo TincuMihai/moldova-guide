@@ -7,6 +7,7 @@ function saveAll(b: Booking[]) { localStorage.setItem(KEY, JSON.stringify(b)); }
 const delay = (ms = 400) => new Promise<void>((r) => setTimeout(r, ms));
 
 export const bookingService = {
+  async getAll(): Promise<Booking[]> { await delay(); return getStored(); },
   async getByUser(userId: string): Promise<Booking[]> { await delay(); return getStored().filter((b) => b.userId === userId); },
   async getByGuide(guideName: string): Promise<Booking[]> { await delay(); return getStored().filter((b) => b.guideName === guideName); },
   async getById(id: string): Promise<Booking | undefined> { await delay(200); return getStored().find((b) => b.id === id); },
