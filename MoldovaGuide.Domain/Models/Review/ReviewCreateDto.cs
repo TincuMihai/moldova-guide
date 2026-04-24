@@ -1,0 +1,10 @@
+namespace MoldovaGuide.Domain.Models.Review
+{
+    public class ReviewCreateDto
+    {
+        public int? TourId { get; set; }
+        public int? AttractionId { get; set; }
+        public decimal Rating { get; set; }
+        public string Comment { get; set; }
+    }
+}
