@@ -18,7 +18,7 @@ export default function UserProfilePage() {
     setErrors(e); if (Object.keys(e).length > 0) return;
     setSaving(true);
     try { await updateProfile({ name, phone, bio } as Partial<User>); setSaved(true); setEditing(false); setTimeout(() => setSaved(false), 3000); }
-    catch { setErrors({ general: 'Eroare la salvare' }); } finally { setSaving(false); }
+    catch (err) { setErrors({ general: (err as Error).message || 'Eroare la salvarea profilului' }); } finally { setSaving(false); }
   }, [name, phone, bio, updateProfile]);
 
   const badges = [

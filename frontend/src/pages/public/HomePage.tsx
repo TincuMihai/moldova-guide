@@ -56,7 +56,7 @@ export default function HomePage() {
           </p>
           <form onSubmit={handleSearch} className="relative max-w-xl mx-auto mb-10">
             <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
-            <input value={search} onChange={(e) => setSearch(e.target.value)} className="w-full pl-12 pr-32 py-4 bg-white/95 backdrop-blur-sm rounded-2xl text-slate-800 dark:text-slate-200 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-2xl" placeholder="Caută atracții, tururi, restaurante..." />
+            <input value={search} onChange={(e) => setSearch(e.target.value)} className="w-full pl-12 pr-32 py-4 bg-white rounded-2xl text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-2xl" placeholder="Caută atracții, tururi, restaurante..." />
             <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 btn-primary py-2.5 px-5 text-sm">Caută</button>
           </form>
           <div className="flex flex-wrap justify-center gap-8 lg:gap-16">

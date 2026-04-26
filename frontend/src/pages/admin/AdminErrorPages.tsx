@@ -58,7 +58,7 @@ export default function AdminErrorPages() {
           <p>• <strong>401</strong> — Se afișează când un utilizator neautentificat accesează o rută protejată</p>
           <p>• <strong>403</strong> — Se afișează când un utilizator autentificat nu are rolul necesar</p>
           <p>• <strong>404</strong> — Se afișează pentru orice URL inexistent</p>
-          <p>• <strong>500</strong> — Se afișează la erori de server (simulate în demo)</p>
+          <p>• <strong>500</strong> — Se afișează la erori de server</p>
         </div>
       </div>
     </div></div>

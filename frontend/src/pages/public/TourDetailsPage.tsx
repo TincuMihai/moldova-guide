@@ -15,6 +15,7 @@ export default function TourDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showBook, setShowBook] = useState(false);
+  const [bError, setBError] = useState('');
   const [bDate, setBDate] = useState('');
   const [bPart, setBPart] = useState(1);
   const [bSaving, setBSaving] = useState(false);
@@ -28,7 +29,7 @@ export default function TourDetailsPage() {
 
   const handleBook = useCallback(async () => {
     if (!tour || !user || !bDate) return; setBSaving(true);
-    try { await bookingService.create({ tourId: tour.id, tourTitle: tour.title, tourImage: tour.images[0], userId: user.id, guideName: tour.guide.name, date: bDate, participants: bPart, totalPrice: tour.price * bPart, currency: tour.currency, status: 'pending', meetingPoint: tour.meetingPoint }); setBSuccess(true); } catch {} finally { setBSaving(false); }
+    try { await bookingService.create({ tourId: tour.id, tourTitle: tour.title, tourImage: tour.images[0], userId: user.id, guideName: tour.guide.name, date: bDate, participants: bPart, totalPrice: tour.price * bPart, currency: tour.currency, status: 'pending', meetingPoint: tour.meetingPoint }); setBSuccess(true); } catch (err) { setBError((err as Error).message || 'Eroare la crearea rezervării'); } finally { setBSaving(false); }
   }, [tour, user, bDate, bPart]);
 
   if (loading) return <LoadingSpinner text="Se incarca turul..." />;
@@ -121,7 +122,7 @@ export default function TourDetailsPage() {
               <p>Durata: {tour.duration}</p><p>Max {tour.maxParticipants} participanti ({spots} locuri libere)</p><p>Intalnire: {tour.meetingPoint}</p>
             </div>
             <div className="mb-6"><p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-2">Date disponibile</p><div className="flex flex-wrap gap-2">{tour.availableDates.map((d) => <span key={d} className="badge bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 text-xs">{d}</span>)}</div></div>
-            {isAuthenticated ? <button onClick={() => setShowBook(true)} className="btn-primary w-full justify-center">Rezerva acum</button> : <Link to="/login" className="btn-primary w-full justify-center text-center block">Conecteaza-te pentru a rezerva</Link>}
+            {isAuthenticated ? <button onClick={() => { setShowBook(true); setBError(''); }} className="btn-primary w-full justify-center">Rezerva acum</button> : <Link to="/login" className="btn-primary w-full justify-center text-center block">Conecteaza-te pentru a rezerva</Link>}
           </div></aside>
         </div>
       </div>
@@ -138,6 +139,7 @@ export default function TourDetailsPage() {
             <div><label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Data</label><select value={bDate} onChange={(e) => setBDate(e.target.value)} className="input-field"><option value="">Selecteaza</option>{tour.availableDates.map((d) => <option key={d} value={d}>{d}</option>)}</select></div>
             <div><label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Participanti</label><input type="number" min={1} max={spots} value={bPart} onChange={(e) => setBPart(Number(e.target.value))} className="input-field" /></div>
             <div className="p-4 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-between"><span className="text-sm text-slate-600 dark:text-slate-400">Total:</span><span className="font-display text-xl font-bold text-brand-600">{tour.price * bPart} {tour.currency}</span></div>
+            {bError && <div className="p-3 rounded-xl bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800 text-sm text-red-600 dark:text-red-400">{bError}</div>}
             <button onClick={handleBook} disabled={!bDate || bSaving} className="btn-primary w-full justify-center disabled:opacity-50">{bSaving ? 'Se proceseaza...' : 'Confirma rezervarea'}</button>
           </div>
         )}
