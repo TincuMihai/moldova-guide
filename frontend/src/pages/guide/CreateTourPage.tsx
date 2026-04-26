@@ -88,7 +88,7 @@ export default function CreateTourPage() {
         isFeatured: true, isActive: true,
       });
       navigate('/guide/my-tours');
-    } catch { setErrors({ general: 'Eroare la salvare' }); }
+    } catch (err) { setErrors({ general: (err as Error).message || 'Eroare la salvarea turului' }); }
     finally { setIsSaving(false); }
   }, [title, description, shortDesc, images, duration, price, maxPart, languages, theme, difficulty, meetingPoint, included, excluded, stops, dates, user, navigate]);
 
@@ -109,7 +109,7 @@ export default function CreateTourPage() {
       </div>
 
       {errors.general && (
-        <div className="p-3 rounded-xl bg-red-50 border border-red-100 text-sm text-red-600">{errors.general}</div>
+        <div className="p-3 rounded-xl bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800 text-sm text-red-600 dark:text-red-400 flex items-start gap-2"><svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" /></svg><span>{errors.general}</span></div>
       )}
 
       <div className="card p-6">
@@ -248,7 +248,7 @@ export default function CreateTourPage() {
               <p className="text-xs text-slate-400 mt-1">Format: AAAA-LL-ZZ</p>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2">Fotografii (demo)</label>
+              <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2">Fotografii</label>
               <div className="flex gap-3">
                 {images.map((img, i) => (
                   <img key={i} src={img} alt="" className="w-28 h-20 rounded-xl object-cover ring-2 ring-brand-200" />

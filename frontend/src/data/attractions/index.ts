@@ -1,1 +1,0 @@
-export { attractions } from "./attractions";

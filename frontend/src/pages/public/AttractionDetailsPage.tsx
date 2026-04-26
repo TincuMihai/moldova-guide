@@ -24,6 +24,7 @@ export default function AttractionDetailsPage() {
   const [reviewText, setReviewText] = useState('');
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewSubmitted, setReviewSubmitted] = useState(false);
+  const [reviewError, setReviewError] = useState('');
 
   const load = useCallback(async () => {
     if (!slug) return; setLoading(true); setError('');
@@ -68,11 +69,28 @@ export default function AttractionDetailsPage() {
     } catch {} finally { setSavingFav(false); }
   }, [attr, isSaved, isAuthenticated, nav, savingFav]);
 
-  const handleReviewSubmit = useCallback(() => {
-    if (!reviewText.trim()) return;
-    setReviewSubmitted(true);
-    setReviewText('');
-  }, [reviewText]);
+  const handleReviewSubmit = useCallback(async () => {
+    setReviewError('');
+    if (!reviewText.trim()) {
+      setReviewError('Comentariul este obligatoriu');
+      return;
+    }
+    if (reviewText.trim().length < 10) {
+      setReviewError('Comentariul trebuie să aibă minim 10 caractere');
+      return;
+    }
+    try {
+      await reviewService.create({
+        attractionId: attr?.id, rating: reviewRating, comment: reviewText,
+        author: '', avatar: '', date: ''
+      });
+      setReviewSubmitted(true);
+      setReviewText('');
+      if (attr) setReviews(await reviewService.getByAttraction(attr.id));
+    } catch (err) {
+      setReviewError((err as Error).message || 'Eroare la trimiterea recenziei');
+    }
+  }, [reviewText, reviewRating, attr]);
 
   if (loading) return <LoadingSpinner text="Se încarcă atracția..." />;
   if (error) return <ErrorState message={error} onRetry={load} />;
@@ -155,7 +173,8 @@ export default function AttractionDetailsPage() {
                           ))}
                         </div>
                       </div>
-                      <textarea value={reviewText} onChange={(e) => setReviewText(e.target.value)} className="input-field min-h-[80px] resize-none mb-3" placeholder="Scrie o recenzie..." />
+                      <textarea value={reviewText} onChange={(e) => { setReviewText(e.target.value); setReviewError(""); }} className={`input-field min-h-[80px] resize-none ${reviewError ? "border-red-400 dark:border-red-500 mb-1" : "mb-3"}`} placeholder="Scrie o recenzie..." />
+                      {reviewError && <p className="text-xs text-red-500 dark:text-red-400 mb-2 flex items-center gap-1"><svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" /></svg>{reviewError}</p>}
                       <button onClick={handleReviewSubmit} disabled={!reviewText.trim()} className="btn-primary text-sm disabled:opacity-50">Publică recenzia</button>
                     </>
                   )}
@@ -192,10 +211,6 @@ export default function AttractionDetailsPage() {
                 {attr.phone && <div><p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-0.5">Telefon</p><p className="text-slate-700 dark:text-slate-300">{attr.phone}</p></div>}
                 {attr.website && <div><p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-0.5">Website</p><a href={attr.website} target="_blank" rel="noopener noreferrer" className="text-brand-500 hover:underline truncate block">{attr.website}</a></div>}
               </div>
-            </div>
-            <div className="relative h-48 rounded-2xl overflow-hidden bg-gradient-to-br from-emerald-100 to-sky-100 border border-slate-200 dark:border-slate-700">
-              <div className="absolute inset-0 flex items-center justify-center"><p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Hartă</p></div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-brand-500 ring-4 ring-brand-200 animate-pulse" />
             </div>
             {/* Share buttons */}
             <div className="card p-5">
