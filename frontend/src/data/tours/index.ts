@@ -1,1 +1,0 @@
-export { tours } from "./tours";
